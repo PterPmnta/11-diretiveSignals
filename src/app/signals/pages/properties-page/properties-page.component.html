@@ -1,1 +1,29 @@
-<p>properties-page works!</p>
+<h1>Mutaciones</h1>
+<hr>
+
+<div class="col">
+    <div class="col-6">
+        <input #txtEmail type="text" 
+                class="form-control mb-2" 
+                placeholder="Email"
+                (input)="onFieldUpdated('email', txtEmail.value)">
+    </div>
+
+    <div class="col-6">
+        <input #txtFirstName type="text" 
+                class="form-control mb-2"
+                placeholder="First Name" 
+                (input)="onFieldUpdated('first_name', txtFirstName.value)">
+    </div>
+
+    <div class="col-6">
+        <input #txtLastName type="text" 
+                class="form-control mb-2" 
+                placeholder="Last Name"
+                (input)="onFieldUpdated('last_name', txtLastName.value)">
+    </div>
+
+    <div class="col-6">
+
+    </div>
+</div>

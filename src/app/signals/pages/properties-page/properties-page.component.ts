@@ -17,8 +17,30 @@ export class PropertiesPageComponent {
     avatar: "https://reqres.in/img/faces/1-image.jpg"
   })
 
-  onFieldUpdated(field: string, value: string){
-    this.user.set(({...this.user(), [field]: value}))
+  onFieldUpdated(field: keyof User, value: string){
+    /* this.user.set(({...this.user(), [field]: value}))
+
+    this.user.update(current => ({
+      ...current,
+      [field]: value
+    })) */
+
+    this.user.update(current => {
+      
+      switch(field){
+        case 'first_name':
+          current.first_name = value
+          break;
+        case 'last_name':
+          current.last_name = value
+          break;
+        case 'email':
+          current.email = value
+          break;
+      }
+
+      return current;
+    })
   }
 
 }

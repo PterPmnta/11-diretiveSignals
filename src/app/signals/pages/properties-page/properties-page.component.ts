@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit, signal } from '@angular/core';
 import { User } from '../../interfaces/user-request.interface';
 
 @Component({
@@ -7,7 +7,9 @@ import { User } from '../../interfaces/user-request.interface';
   styleUrl: './properties-page.component.css'
 })
 
-export class PropertiesPageComponent {
+export class PropertiesPageComponent implements OnDestroy, OnInit{
+
+  public counter = signal(10);
 
   public user = signal<User>({
     id: 1,
@@ -17,15 +19,29 @@ export class PropertiesPageComponent {
     avatar: "https://reqres.in/img/faces/1-image.jpg"
   })
 
-  onFieldUpdated(field: keyof User, value: string){
-    /* this.user.set(({...this.user(), [field]: value}))
+  public userChangeEffect = effect(() => {
+    console.log(`${this.user().first_name} - ${this.counter()}`)
+  })
 
-    this.user.update(current => ({
+  ngOnInit(): void {
+    setInterval(() => {
+      this.counter.update(current => current + 1)
+    }, 1000)
+  }
+
+  ngOnDestroy(): void {
+    //this.userChangeEffect.destroy()
+  }
+
+  onFieldUpdated(field: keyof User, value: string){
+    this.user.set(({...this.user(), [field]: value}))
+
+   /* this.user.update(current => ({
       ...current,
       [field]: value
     })) */
 
-    this.user.update(current => {
+    /* this.user.update(current => {
       
       switch(field){
         case 'first_name':
@@ -39,8 +55,14 @@ export class PropertiesPageComponent {
           break;
       }
 
+      return structuredClone(current);
+
       return current;
-    })
+    }) */
+  }
+
+  increaseBy(value: number){
+    this.counter.update(current => current + value)
   }
 
 }
